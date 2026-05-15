@@ -1,0 +1,22 @@
+# ai-router config
+host: "0.0.0.0"
+port: 8080
+providers:
+  - name: "deepseek"
+    base_url: "https://api.deepseek.com/v1"
+    api_key: "${DEEPSEEK_API_KEY}"
+    models: ["deepseek-chat", "deepseek-v4-pro"]
+    priority: 1
+  - name: "openclaw"
+    base_url: "https://api.openclaw.ai/v1"
+    api_key: "${OPENCLAW_API_KEY}"
+    models: ["openclaw-zero-token"]
+    priority: 2
+models:
+  default: "deepseek-chat"
+  aliases:
+    "gpt-4o-mini": "deepseek-chat"
+    "free": "openclaw-zero-token"
+fallback:
+  enabled: true
+  max_retries: 2
