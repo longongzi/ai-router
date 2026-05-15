@@ -126,7 +126,12 @@ class Handler(http.server.BaseHTTPRequestHandler):
     router = None
     def do_GET(self):
         if self.path=="/v1/models": self._json(200,{"object":"list","data":[{"id":m,"object":"model"} for m in sorted(set(m for p in self.router.providers for m in p.models))]})
-        elif self.path=="/health": self._json(200,{"status":"ok","providers":len(self.router.providers),"healthy":sum(1 for p in self.router.providers if p.healthy)})
+        elif self.path=="/dashboard":
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html")
+            self.end_headers()
+            self.wfile.write("<html><body><h1>ai-router</h1><p>Status: running</p></body></html>".encode())
+elif self.path=="/health": self._json(200,{"status":"ok","providers":len(self.router.providers),"healthy":sum(1 for p in self.router.providers if p.healthy)})
         else: self._json(404,{"error":"Not found"})
     def do_POST(self):
         if self.path=="/v1/chat/completions":
